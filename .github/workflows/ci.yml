@@ -1,0 +1,43 @@
+name: Next.js CI Pipeline
+
+on:
+  push:
+    branches:
+      - develop  # Trigger for pushes to the develop branch
+      - main     # Trigger for pushes to the main branch
+  pull_request:
+    branches:
+      - develop  # Trigger for PRs targeting the develop branch
+      - main     # Trigger for PRs targeting the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Node.js (use the version that your Next.js project requires)
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '22'  # Use the version of Node.js that your project supports
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Step 4: Run Next.js build
+    - name: Build Next.js project
+      run: npm run build
+
+    # Step 5: Run tests (optional, if you have tests set up)
+    - name: Run tests
+      run: npm test
+
+    # Step 6: Optionally deploy (e.g., deploy to Vercel, Netlify, or a custom server)
+    # You can add deployment steps here if you want
+    # - name: Deploy to Vercel
+    #   run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
